@@ -1,7 +1,5 @@
 # Blackline Barbershop — Landing Page + Agendamento + Painel Administrativo
 
-Monorepo com duas aplicacoes independentes:
-
 ```
 barbershop/
 ├── frontend/   # Next.js 14 (App Router) + Tailwind CSS + Framer Motion
@@ -40,7 +38,7 @@ barbershop/
 - Ao confirmar, o backend dispara **duas mensagens**: a confirmação para o cliente (`sendBookingConfirmation`) e um aviso de novo agendamento para a equipe (`sendAdminNotification`, em `services/messagingService.js`). O aviso vai para o telefone do próprio barbeiro (`config/barbers.js`, campo `phone`) se ele tiver um cadastrado, senão cai para `ADMIN_WHATSAPP_NUMBER` (ver `.env.example`).
 - Se nenhum dos dois números estiver configurado, a criação do agendamento **não falha** — só fica registrado um aviso no log do servidor.
 
-## Controle de horários (disponibilidade e conflito)
+## Controle de horários
 
 - `config/businessHours.js` define o expediente por dia da semana (seg-sex 09:00-20:00, sábado 09:00-18:00, domingo fechado) — mantenha esse arquivo e o texto do `Footer.jsx` do frontend sincronizados manualmente, já que são dois apps sem módulo compartilhado.
 - `services/availabilityService.js` é a fonte única de verdade sobre o que está livre: calcula os horários do dia (respeitando expediente + duração do serviço) e, para cada um, quais barbeiros estão sem conflito. Essa mesma lógica é usada tanto pelo endpoint `GET /api/availability` quanto pela criação do agendamento — não existem duas regras que possam divergir.
@@ -117,8 +115,6 @@ Prompt sugerido para geracao das imagens (Midjourney, DALL-E, Firefly, etc.):
 > cinematic lighting.
 
 ## Deploy
-
-Resumo (o passo a passo completo esta na conversa com o Claude que gerou este projeto):
 
 - **Frontend**: Vercel. Root directory `frontend/`, variavel `NEXT_PUBLIC_API_URL` apontando para a URL publica do backend.
 - **Backend**: precisa de um host com processo persistente (nao serverless), porque o `node-cron` do lembrete e a sessao do WhatsApp dependem de um processo sempre rodando. Railway ou Render funcionam bem. Root directory `backend/`.
