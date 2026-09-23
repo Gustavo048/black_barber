@@ -1,0 +1,14 @@
+# Dependências
+node_modules/
+**/node_modules/
+
+# Ambiente e logs
+.env
+*.log
+
+# WhatsApp Auth Cache (visto no seu backend)
+.wwebjs_auth/
+.wwebjs_cache/
+
+# macOS
+.DS_Store
